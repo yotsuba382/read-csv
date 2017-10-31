@@ -1,7 +1,9 @@
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.StringTokenizer;
  
@@ -12,6 +14,8 @@ public class ReadCSV {
     String[] string_csv = {"person1_a.csv","person1_i.csv","person1_u.csv",
                             "person2_a.csv","person2_i.csv","person2_u.csv"};
 
+    File txt = new File("output.txt");
+
     int label = 0;
     for(int i=0; i<6 ; i++){
       try {
@@ -21,6 +25,7 @@ public class ReadCSV {
         if(i==3) label = 1; 
  
         BufferedReader br = new BufferedReader(new FileReader(csv));
+        BufferedWriter bw = new BufferedWriter(new FileWriter(txt, true)); 
  
         // 最終行まで読み込む
         String line = "";
@@ -32,15 +37,21 @@ public class ReadCSV {
           // 1行をデータの要素に分割
           StringTokenizer st = new StringTokenizer(line, ",");
  
-          System.out.print(label+" "); //label
+          //System.out.print(label+" "); //label
+          bw.write(label+" ");
+
           while (st.hasMoreTokens()) {
             // 1行の各要素をスペース" "区切りで表示
-            System.out.print(count+":"+st.nextToken()+" ");
+            bw.write(count+":"+st.nextToken()+" ");
+            //System.out.print(count+":"+st.nextToken()+" ");
             count++;
           }
-          System.out.println();
+          
+          bw.newLine();
+          //System.out.println();
         }
         br.close();
+        bw.close();
  
       } catch (FileNotFoundException e) {
         // Fileオブジェクト生成時の例外捕捉
